@@ -1,0 +1,21 @@
+html {
+  scroll-behavior: smooth;
+}
+.sortableHelper {
+  z-index: 10;
+}
+
+.DragHandler {
+  opacity: 0.5;
+}
+.DragHandler #dragIcon {
+  transform: rotate(90deg);
+  visibility: hidden;
+}
+
+.DragHandler:hover #dragIcon {
+  visibility: visible;
+}
+.DragHandler #dragIcon:checked {
+  visibility: visible;
+}
