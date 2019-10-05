@@ -1,5 +1,5 @@
 import React from "react";
-import TestBuilder from "./components/dragabbletest/card/Container";
+import TestBuilder from "./components/dragabbletest/all/Container";
 function App() {
   return <TestBuilder />;
 }
