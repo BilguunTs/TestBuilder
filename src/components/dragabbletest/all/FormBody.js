@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Grid, Input } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 import { AllTypes } from "./FormType";
 import {
   CheckBoxes,
@@ -53,13 +53,7 @@ class FormBody extends Component {
     const { context, type } = this.props;
 
     return (
-      <Grid
-        container
-        direction="row"
-        justify="center"
-        alignItems="center"
-        style={{ backgroundColor: "#eee" }}
-      >
+      <Grid container direction="row" justify="center" alignItems="center">
         <Grid item xs>
           {RenderField()}
         </Grid>

@@ -5,7 +5,7 @@ import React, {
   useState,
   useEffect
 } from "react";
-import { makeStyles, createStyles, withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
 import DragIcon from "@material-ui/icons/DragIndicatorTwoTone";
@@ -15,8 +15,6 @@ import Footer from "./Formfooter";
 import Body from "./FormBody";
 import { SortableHandle } from "react-sortable-hoc";
 import "../sortablelistdrag/Helper.css";
-
-import { logProps } from "./ForwardHOC";
 
 /*const useStyles = theme =>
   createStyles({
@@ -84,7 +82,7 @@ class MainForm extends React.Component {
     this.rootRef = React.createRef();
     this.mainref = React.createRef();
     this.state = {
-      mark: this.props.context.state.targetis == this.props.index
+      mark: this.props.context.state.targetis === this.props.index
     };
   }
 
@@ -98,34 +96,32 @@ class MainForm extends React.Component {
 
   onMouseClick = e => {
     console.log("I am targeted :" + this.mainref.current.id);
-
-    // this.props.context.setIsFocused(this.mainref.current.id);
+    if (this.props.context.state.targetis === this.props.index) {
+      return;
+    }
+    this.props.context.setIsFocused(this.mainref.current.id);
   };
   render() {
     const { classes, isFocused, ...rest } = this.props;
     const { mark } = this.state;
+
     // const classes = useStyles();
+    //   console.log(this.props.index);
     return (
       <RootRef rootRef={this.rootRef}>
         <Paper
           {...rest}
           id={this.props.id}
           ref={this.mainref}
-          onMouseOut={this.onMouseOut.bind(this)}
-          onMouseOver={e => this.onMouseOver(e)}
           className={classes.root}
           square={false}
           elevation={2}
-          style={
-            {
-              /* zIndex: `${mark ? 10 : -1}`,
+          style={{
+            /* zIndex: `${mark ? 10 : -1}`,
             opacity: `${mark ? 1 : 0.6}`,
             padding: `${mark ? "20px" : "10px"}`,*/
-              /*   borderLeft: `3px solid ${
-              this.props.selectedIndex === this.props.index ? "blue" : "#fff"
-            }`*/
-            }
-          }
+            borderLeft: `3px solid ${mark ? "blue" : "#fff"}`
+          }}
         >
           <Grid container justify="center" spacing={3}>
             <Grid item>

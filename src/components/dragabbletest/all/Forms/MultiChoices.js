@@ -13,14 +13,15 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   TextField,
-  Input
+  Input,
+  Button
 } from "@material-ui/core";
-//import arrayMove from "array-move";
-import { Clear } from "@material-ui/icons";
+
+import Clear from "@material-ui/icons/Remove";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import { connecter } from "../Context";
+import AddIcon from "@material-ui/icons/Add";
 
-import AnswerField from "../components/Input";
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
@@ -192,7 +193,9 @@ function MultiChoices(props) {
                 </Grid>
               );
             })}
-            <button onClick={() => addAnswer()}>addoption</button>
+            <Button onClick={addAnswer.bind(this)}>
+              <AddIcon />
+            </Button>
           </Grid>
         }
       </List>
@@ -200,13 +203,3 @@ function MultiChoices(props) {
   );
 }
 export default connecter(MultiChoices);
-/**
- *  <AnswerField
-                        intype="answer"
-                        answerID={o.id}
-                        defaultValue={o.value}
-                        inputProps={{
-                          "aria-label": "description"
-                        }}
-                      />
- */

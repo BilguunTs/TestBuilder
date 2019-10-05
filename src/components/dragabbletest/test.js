@@ -28,10 +28,11 @@ class DragTest extends Component {
                   </Grid>
                 </Grid>
                 <Fab
+                  onClick={ct.addForm.bind(this)}
                   color="secondary"
                   style={{ position: "fixed", right: "20px", bottom: "30px" }}
                 >
-                  <SpeedDialIcon onClick={ct.addForm.bind(this)} />
+                  <SpeedDialIcon />
                 </Fab>
               </>
             );

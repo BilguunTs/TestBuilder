@@ -13,7 +13,9 @@ class Draghandle extends Component {
     super(props);
     this.focusOnme = createRef();
     this.state = {
-      selectedIndex: 0
+      selectedindex: 0,
+      mark: null,
+      id: ""
     };
   }
 
@@ -23,19 +25,19 @@ class Draghandle extends Component {
     }
     this.props.context.onArrayMove(oldIndex, newIndex);
   };
-  handleListItemClick(event, index) {
-    this.setState({ selectedIndex: index });
+  handleListItemClick(e, index) {
+    return this.setState({ selectedindex: index });
   }
   render() {
     const SortableItem = sortableElement(
-      ({ index, ID, formtype, isFocused, isrequired, question, context }) => (
+      ({ indexis, ID, formtype, isFocused, isrequired, question, context }) => (
         <FormBuilder
           {...this.state}
-          handle={event => this.handleListItemClick(event, index)}
+          setcurrent={this.handleListItemClick}
           isrequired={isrequired}
           context={context}
           question={question}
-          index={index}
+          index={indexis}
           id={ID}
           type={formtype}
         />
@@ -58,6 +60,7 @@ class Draghandle extends Component {
               isrequired={l.isRequired}
               context={context}
               key={unique}
+              indexis={i}
               index={i}
               question={l.Question}
               formtype={l.Field.type}

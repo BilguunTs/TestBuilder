@@ -5,18 +5,22 @@ import TextField from "@material-ui/core/TextField";
 import ShiftFieldType from "./ShiftField";
 
 export default function FormHeader(props) {
-  const { question } = props;
-  /*function getI() {
-    for (let i = 0; i <= props.context.state.items.length; i++) {
-      if (props.context.state.items[i].Question === question) {
-        return i;
-      }
-    }
-  }*/
+  const qRef = React.useRef();
   return (
-    <Grid container justify="space-between">
+    <Grid
+      container
+      onClick={() => qRef.current.focus()}
+      justify="space-between"
+    >
       <Grid item>
-        <TextField value="This is demo" autoFocus label="Question" />
+        <TextField
+          inputRef={qRef}
+          onChange={e =>
+            (props.context.state.items[props.index].Question = e.target.value)
+          }
+          defaultValue={props.context.state.items[props.index].Question}
+          label="Question"
+        />
       </Grid>
       <Grid item>
         <ShiftFieldType {...props} On={null} />
@@ -24,18 +28,3 @@ export default function FormHeader(props) {
     </Grid>
   );
 }
-//setup before functions
-//time in ms, 5 second for example
-
-//on keyup, start the countdown
-/**
- *  <QuestionField
-          {...props}
-          intype="ask"
-          defaultValue={question}
-          inputProps={{
-            "aria-label": "description"
-          }}
-        />
- */
-//user is "finished typing," do something
