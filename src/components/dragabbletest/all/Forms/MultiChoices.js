@@ -14,7 +14,8 @@ import {
   ListItemSecondaryAction,
   TextField,
   Input,
-  Button
+  Button,
+  Typography
 } from "@material-ui/core";
 
 import Clear from "@material-ui/icons/Remove";
@@ -163,39 +164,50 @@ function MultiChoices(props) {
                     <ListItemIcon>
                       <Radio
                         //checked={checked.indexOf(o.value) !== -1}
+                        disabled={props.default === true}
                         tabIndex={-1}
                         disableRipple
                         inputProps={{ "aria-labelledby": labelId }}
                       />
                     </ListItemIcon>
                     <ListItemText id={labelId}>
-                      <TextField
-                        autoFocus
-                        onChange={e =>
-                          (context.state.answers[index].values[i].value =
-                            e.target.value)
-                        }
-                        defaultValue={
-                          context.state.answers[index].values[i].value
-                        }
-                      />
+                      {props.default === true ? (
+                        <Typography>
+                          {context.state.answers[index].values[i].value}
+                        </Typography>
+                      ) : (
+                        <TextField
+                          autoFocus
+                          onChange={e =>
+                            (context.state.answers[index].values[i].value =
+                              e.target.value)
+                          }
+                          defaultValue={
+                            context.state.answers[index].values[i].value
+                          }
+                        />
+                      )}
                     </ListItemText>
-                    <ListItemSecondaryAction>
-                      <IconButton
-                        onClick={context.deleteAnswer.bind(this, id, o.id)}
-                        edge="end"
-                        aria-label="comments"
-                      >
-                        <Clear />
-                      </IconButton>
-                    </ListItemSecondaryAction>
+                    {props.default === true ? null : (
+                      <ListItemSecondaryAction>
+                        <IconButton
+                          onClick={context.deleteAnswer.bind(this, id, o.id)}
+                          edge="end"
+                          aria-label="comments"
+                        >
+                          <Clear />
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                    )}
                   </ListItem>
                 </Grid>
               );
             })}
-            <Button onClick={addAnswer.bind(this)}>
-              <AddIcon />
-            </Button>
+            {props.default === true ? null : (
+              <Button onClick={addAnswer.bind(this)}>
+                <AddIcon />
+              </Button>
+            )}
           </Grid>
         }
       </List>

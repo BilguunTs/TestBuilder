@@ -15,6 +15,7 @@ import Footer from "./Formfooter";
 import Body from "./FormBody";
 import { SortableHandle } from "react-sortable-hoc";
 import "../sortablelistdrag/Helper.css";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 /*const useStyles = theme =>
   createStyles({
@@ -53,12 +54,18 @@ import "../sortablelistdrag/Helper.css";
   });*/
 const styles = {
   root: {
-    //borderLeft: "3px solid #fff",
-    margin: "20px",
+    margin: "0px",
     paddingRight: "20px",
     paddingLeft: "20px",
+
     "&:active": {
-      borderLeft: "3px solid blue"
+      borderLeft: "3px solid blue",
+      opacity: "1"
+    },
+
+    "&:hover": {
+      opacity: "1",
+      borderLeft: "3px solid dark"
     },
     "&:hover #dragIcon": {
       visibility: "visible"
@@ -72,9 +79,18 @@ const styles = {
   }
 };
 const DragHandle = SortableHandle(() => (
-  <span className="DragHandler">
-    <DragIcon id="dragIcon" focusable={true} />
-  </span>
+  <Grid
+    style={{ cursor: "move", "&:active": { cursor: "move" } }}
+    container
+    justify="center"
+    spacing={1}
+  >
+    <Grid item>
+      <span className="DragHandler">
+        <DragIcon id="dragIcon" focusable={true} />
+      </span>
+    </Grid>
+  </Grid>
 ));
 class MainForm extends React.Component {
   constructor(props) {
@@ -82,24 +98,33 @@ class MainForm extends React.Component {
     this.rootRef = React.createRef();
     this.mainref = React.createRef();
     this.state = {
-      mark: this.props.context.state.targetis === this.props.index
+      mark: false,
+      current: "Ref1"
     };
   }
+  componentDidMount() {
+    if (this.props.context.state.targetis === this.props.id) {
+      this.setState({ mark: true });
+    }
+  }
+  componentWillUnmount() {
+    this.props.context.setIsFocused.bind(this, this.mainref.current.id);
+  }
 
-  onMouseOver = e => {
-    console.log("I am current:" + this.props.context.state.targetis);
-    this.setState({ elv: 15 });
+  handleClickAway = () => {
+    this.setState({ mark: false });
   };
-  onMouseOut = () => {
-    this.setState({ elv: 1 });
-  };
-
   onMouseClick = e => {
-    console.log("I am targeted :" + this.mainref.current.id);
-    if (this.props.context.state.targetis === this.props.index) {
+    if (
+      this.props.context.state.targetis === this.mainref.current.id &&
+      this.state.mark === true
+    ) {
       return;
     }
+
     this.props.context.setIsFocused(this.mainref.current.id);
+
+    this.setState({ mark: true });
   };
   render() {
     const { classes, isFocused, ...rest } = this.props;
@@ -109,85 +134,77 @@ class MainForm extends React.Component {
     //   console.log(this.props.index);
     return (
       <RootRef rootRef={this.rootRef}>
-        <Paper
-          {...rest}
-          id={this.props.id}
-          ref={this.mainref}
-          className={classes.root}
-          square={false}
-          elevation={2}
-          style={{
-            /* zIndex: `${mark ? 10 : -1}`,
-            opacity: `${mark ? 1 : 0.6}`,
-            padding: `${mark ? "20px" : "10px"}`,*/
-            borderLeft: `3px solid ${mark ? "blue" : "#fff"}`
-          }}
-        >
-          <Grid container justify="center" spacing={3}>
-            <Grid item>
-              <DragHandle />
-            </Grid>
-          </Grid>
+        {mark ? (
+          <ClickAwayListener onClickAway={this.handleClickAway}>
+            <div>
+              <Paper
+                {...rest}
+                id={this.props.id}
+                ref={this.mainref}
+                className={classes.root}
+                square={false}
+                onClick={this.onMouseClick.bind(this)}
+                elevation={mark ? 20 : 2}
+                style={{
+                  //     zIndex: `${mark ? 10 : 1}`,
+                  // padding: `${mark ? "2px" : "1px"}`,
+                  backgroundColor: "#eee",
 
-          <Header {...rest} />
-          <Grid container>
-            <Grid item>
-              <Body {...rest} />
-            </Grid>
-          </Grid>
-          <Divider />
-          <Footer {...rest} />
-        </Paper>
+                  borderLeft: `3px solid  blue `
+                }}
+              >
+                <div
+                  style={{ padding: "1px" }}
+                  onClick={this.onMouseClick.bind(this)}
+                >
+                  <DragHandle />
+                </div>
+
+                <Header {...rest} />
+                <Grid container>
+                  <Grid item>
+                    <Body {...rest} />
+                  </Grid>
+                </Grid>
+                <Divider />
+                <Footer {...rest} />
+              </Paper>
+            </div>
+          </ClickAwayListener>
+        ) : (
+          <ClickAwayListener
+            touchEvent="onTouchEnd"
+            mouseEvent="onMouseDown"
+            onClickAway={this.handleClickAway}
+          >
+            <div
+              style={{ backgroundColor: "#fff" }}
+              className={classes.root}
+              ref={this.mainref}
+              id={this.props.id}
+              onClick={this.onMouseClick.bind(this)}
+            >
+              <div
+                style={{ padding: "1px" }}
+                onMouseDown={this.onMouseClick.bind(this)}
+              >
+                <DragHandle />
+              </div>
+
+              <Grid container direction="column">
+                <Grid item>
+                  <Header default={true} {...rest} />
+                </Grid>
+                <Grid item>
+                  <Body default={true} {...rest} />
+                </Grid>
+              </Grid>
+            </div>
+          </ClickAwayListener>
+        )}
       </RootRef>
     );
   }
 }
 
 export default withStyles(styles)(MainForm);
-/**
- * <Droppable droppableId={props.ID}>
-        {provided => (
-          <List className={classes.List} {...provided.droppableProps}>
-            {props.tasks.map(task => {
-              return (
-                <Paper
-                  key={task.id}
-                  onMouseOver={onMouseOver}
-                  onMouseOut={onMouseOut}
-                  className={classes.root}
-                  elevation={value}
-                >
-                  <Grid container justify="center" spacing={3}>
-                    <Grid item>
-                      <DragIcon style={{ transform: "rotate(90deg)" }} />
-                    </Grid>
-                  </Grid>
-
-                  <Grid container justify="space-between">
-                    <Grid item>
-                      <Input
-                        defaultValue={props.defValue}
-                        className={classes.input}
-                        inputProps={{
-                          "aria-label": "description"
-                        }}
-                      />
-                    </Grid>
-                    <Grid item>
-                      <ShiftFieldType />
-                    </Grid>
-                  </Grid>
-                  <Grid container>
-                    <Grid item>
-                      <Body />
-                    </Grid>
-                  </Grid>
-                  <Divider />
-                  <Footer />
-                </Paper>
-              );
-            })}
-          </List>
-        )}
-      </Droppable>
- */

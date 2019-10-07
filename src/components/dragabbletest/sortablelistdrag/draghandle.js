@@ -1,7 +1,7 @@
 import React, { Component, createRef } from "react";
 import FormBuilder from "../all/PaperContainer";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
-
+import { findDOMNode } from "react-dom";
 import "./Helper.css";
 import { connecter } from "../all/Context";
 const SortableContainer = sortableContainer(({ children }) => {
@@ -11,6 +11,7 @@ const SortableContainer = sortableContainer(({ children }) => {
 class Draghandle extends Component {
   constructor(props) {
     super(props);
+    this.containerRef = createRef();
     this.focusOnme = createRef();
     this.state = {
       selectedindex: 0,
@@ -45,30 +46,37 @@ class Draghandle extends Component {
     );
     const { context } = this.props;
     return (
-      <SortableContainer
-        pressThreshold={5}
-        useWindowAsScrollContainer
-        lockAxis="y"
-        onSortEnd={this.onSortEnd}
-        useDragHandle
+      <div
+        style={{
+          backgroundColor: " rgba(255, 255, 255, .15)",
+          padding: "0px",
+          backdropFilter: 'blur("200px")'
+        }}
       >
-        {context.state.items.map((l, i) => {
-          const unique = `key-num-${i}`;
+        <SortableContainer
+          useWindowAsScrollContainer
+          lockAxis="y"
+          onSortEnd={this.onSortEnd}
+          useDragHandle
+        >
+          {context.state.items.map((l, i) => {
+            const unique = `key-num-${i}`;
 
-          return (
-            <SortableItem
-              isrequired={l.isRequired}
-              context={context}
-              key={unique}
-              indexis={i}
-              index={i}
-              question={l.Question}
-              formtype={l.Field.type}
-              ID={l.id}
-            />
-          );
-        })}
-      </SortableContainer>
+            return (
+              <SortableItem
+                isrequired={l.isRequired}
+                context={context}
+                key={unique}
+                indexis={i}
+                index={i}
+                question={l.Question}
+                formtype={l.Field.type}
+                ID={l.id}
+              />
+            );
+          })}
+        </SortableContainer>
+      </div>
     );
   }
 }

@@ -15,14 +15,13 @@ import {
 import Paragraph from "./Forms/Paragraph";
 import ShortAnswer from "./Forms/ShortAnswer";
 import MultiChoices from "./Forms/MultiChoices";
+import DefaultView from "./Forms/DefaultView";
 class FormBody extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    const RenderField = () => {
+    const { context, type } = this.props;
+    const RenderField = mark => {
       let Instance;
+
       switch (this.props.type) {
         case AllTypes.CheckBoxes:
           return (Instance = <CheckBoxes />);
@@ -37,11 +36,13 @@ class FormBody extends Component {
         case AllTypes.MultiChoiceGrid:
           return (Instance = <MultiChoiceGrid />);
         case AllTypes.MultiChoices:
-          return (Instance = <MultiChoices id={this.props.id} />);
+          return (Instance = (
+            <MultiChoices id={this.props.id} {...this.props} />
+          ));
         case AllTypes.Paragraph:
-          return (Instance = <Paragraph />);
+          return (Instance = <Paragraph {...this.props} />);
         case AllTypes.ShortAnswer:
-          return (Instance = <ShortAnswer />);
+          return (Instance = <ShortAnswer {...this.props} />);
         case AllTypes.TickBoxGrid:
           return (Instance = <TickBoxGrid />);
         case AllTypes.Time:
@@ -50,7 +51,6 @@ class FormBody extends Component {
           return (Instance = <h1>null</h1>);
       }
     };
-    const { context, type } = this.props;
 
     return (
       <Grid container direction="row" justify="center" alignItems="center">

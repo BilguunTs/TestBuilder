@@ -13,7 +13,7 @@ export class ContextWrapper extends React.Component {
     this.targetAnswerIndex = "";
     this.state = {
       updateFlag: false,
-      targetis: 0,
+
       items: [
         {
           id: "ref1",
@@ -84,7 +84,8 @@ export class ContextWrapper extends React.Component {
             { id: "some9", value: "for the future" }
           ]
         }
-      ]
+      ],
+      targetis: "ref1"
     };
 
     this.setTargetIndexById = id => {
@@ -125,7 +126,10 @@ export class ContextWrapper extends React.Component {
   }
   updateTarget = id => {
     this.setTargetIndexById(id);
-    this.setState({ ...this.state, targetis: this.targetindex });
+    return this.setState({
+      ...this.state,
+      targetis: update(this.state.targetis, { $set: id })
+    });
   };
   changeQuistion = (v, id) => {
     this.setTargetIndexById(id);

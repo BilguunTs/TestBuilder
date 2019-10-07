@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Input from "@material-ui/core/Input";
-
+import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
@@ -17,18 +17,11 @@ export default function ShortAnswer(props) {
   const { isEditable } = props;
   return (
     <div className={classes.container}>
-      {isEditable ? (
-        <Input
-          disabled
-          placeholder="short answer text"
-          className={classes.input}
-          inputProps={{
-            "aria-label": "description"
-          }}
-        />
+      {props.default ? (
+        <Typography>Answer goes here</Typography>
       ) : (
         <Input
-          placeholder="your answer"
+          placeholder="short answer text"
           className={classes.input}
           inputProps={{
             "aria-label": "description"

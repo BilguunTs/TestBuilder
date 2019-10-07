@@ -8,6 +8,9 @@ html {
 .DragHandler {
   opacity: 0.5;
 }
+.DragHandler:active {
+  visibility: visible;
+}
 .DragHandler #dragIcon {
   transform: rotate(90deg);
   visibility: hidden;
@@ -17,5 +20,8 @@ html {
   visibility: visible;
 }
 .DragHandler #dragIcon:checked {
+  visibility: visible;
+}
+.DragHandler #dragIcon:active {
   visibility: visible;
 }

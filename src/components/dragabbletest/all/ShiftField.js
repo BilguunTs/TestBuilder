@@ -37,6 +37,7 @@ function ControlledOpenSelect(props) {
     <form autoComplete="off">
       <FormControl className={classes.formControl}>
         <Select
+          onClick={() => console.log("I just clicked")}
           open={open}
           onClose={handleClose}
           onOpen={handleOpen}
