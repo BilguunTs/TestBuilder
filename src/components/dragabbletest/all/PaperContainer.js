@@ -148,9 +148,9 @@ class MainForm extends React.Component {
                 style={{
                   //     zIndex: `${mark ? 10 : 1}`,
                   // padding: `${mark ? "2px" : "1px"}`,
-                  backgroundColor: "#eee",
+                  backgroundColor: "#fff",
 
-                  borderLeft: `3px solid  blue `
+                  borderLeft: `3px solid  #4d90fe `
                 }}
               >
                 <div
@@ -178,7 +178,7 @@ class MainForm extends React.Component {
             onClickAway={this.handleClickAway}
           >
             <div
-              style={{ backgroundColor: "#fff" }}
+              style={{ backgroundColor: "# f5f5f5" }}
               className={classes.root}
               ref={this.mainref}
               id={this.props.id}
@@ -198,6 +198,7 @@ class MainForm extends React.Component {
                 <Grid item>
                   <Body default={true} {...rest} />
                 </Grid>
+                <Grid item></Grid>
               </Grid>
             </div>
           </ClickAwayListener>

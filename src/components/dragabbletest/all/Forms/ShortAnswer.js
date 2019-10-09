@@ -17,17 +17,14 @@ export default function ShortAnswer(props) {
   const { isEditable } = props;
   return (
     <div className={classes.container}>
-      {props.default ? (
-        <Typography>Answer goes here</Typography>
-      ) : (
-        <Input
-          placeholder="short answer text"
-          className={classes.input}
-          inputProps={{
-            "aria-label": "description"
-          }}
-        />
-      )}
+      <Input
+        placeholder="short answer text"
+        className={classes.input}
+        inputProps={{
+          "aria-label": "description"
+        }}
+        disabled={true}
+      />
     </div>
   );
 }

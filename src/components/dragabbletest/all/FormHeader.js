@@ -7,6 +7,9 @@ import Typography from "@material-ui/core/Typography";
 
 export default function FormHeader(props) {
   const qRef = React.useRef();
+  const Question = props.context.state.items[props.index].Question;
+  const isRequired = props.context.state.items[props.index].isRequired;
+
   return (
     <Grid
       container
@@ -16,16 +19,14 @@ export default function FormHeader(props) {
       <Grid item>
         {props.default === true ? (
           <Typography variant="h6" ref={qRef}>
-            {props.context.state.items[props.index].Question}
+            {isRequired ? "* " + Question : Question}
           </Typography>
         ) : (
           <TextField
             autoFocus
             inputRef={qRef}
-            onChange={e =>
-              (props.context.state.items[props.index].Question = e.target.value)
-            }
-            defaultValue={props.context.state.items[props.index].Question}
+            onChange={e => (Question = e.target.value)}
+            defaultValue={Question}
             label="Question"
           />
         )}

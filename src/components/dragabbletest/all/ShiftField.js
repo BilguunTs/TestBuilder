@@ -10,7 +10,8 @@ const useStyles = makeStyles(theme => ({
   },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120
+    minWidth: 120,
+    backgroundColor: " #f5f5f5"
   }
 }));
 
@@ -37,7 +38,6 @@ function ControlledOpenSelect(props) {
     <form autoComplete="off">
       <FormControl className={classes.formControl}>
         <Select
-          onClick={() => console.log("I just clicked")}
           open={open}
           onClose={handleClose}
           onOpen={handleOpen}

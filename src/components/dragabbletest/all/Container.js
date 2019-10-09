@@ -48,7 +48,7 @@ function a11yProps(index) {
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: "transparent"
+    backgroundColor: "#fff"
   },
   form: {
     boxShadow: 1,
